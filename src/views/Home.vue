@@ -76,8 +76,19 @@ export default class Home extends Vue {
 <style scoped>
 .albums-wrapper {
   display: inline-block;
-  width: calc(100vw - 425px);
   vertical-align: top;
+}
+
+@media (max-width: 961px) {
+  .albums-wrapper {
+    width: calc(100vw);
+  }
+}
+
+@media (min-width: 960px) {
+  .albums-wrapper {
+    width: calc(100vw - 425px);
+  }
 }
 
 .albums {

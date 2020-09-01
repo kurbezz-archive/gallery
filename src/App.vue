@@ -14,6 +14,7 @@
           @click="switchLeftPanel()">
           <LottieAnimation
             class="close-btn-icon"
+           :class="{'close-btn-icon-when-left-panel-open': !leftPanelClosed}"
             path="./animations/menu-close2.json"
            :width="30"
            :autoPlay="false"
@@ -143,9 +144,15 @@ body, #app {
   }
 
   .close-btn-icon {
-    position: absolute;
+    position: fixed;
+    height: 50px!important;
     left: 14px;
+    transition: left linear .3s;
     z-index: 2;
+  }
+
+  .close-btn-icon-when-left-panel-open {
+    left: 205px;
   }
 
   .close-btn-label {
@@ -158,7 +165,7 @@ body, #app {
   }
 
   .vertical-panel-when-left-panel-open {
-    position: absolute;
+    position: fixed;
     width: 58px;
     height: 100%;
     background: white!important;
@@ -176,7 +183,7 @@ body, #app {
 
 @media (min-width: 960px) {
   .close-btn {
-    position: absolute;
+    position: fixed;
     width: 58px;
     height: 100%;
     outline: none!important;
@@ -210,7 +217,7 @@ body, #app {
 }
 
 .left-panel {
-  position: absolute;
+  position: fixed;
   width: 192px;
   background-color: white;
   transition: margin-left linear .3s;

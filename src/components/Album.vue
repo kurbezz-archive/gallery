@@ -61,18 +61,28 @@ export default class Album extends Vue {
 @media (max-width: 461px) {
   .album {
     flex: 1 100%;
+    max-width: 100%;
   }
 }
 
 @media (min-width: 460px) and (max-width: 1401px) {
   .album {
     flex: 1 50%;
+    max-width: 50%;
   }
 }
 
-@media (min-width: 1400px) and (max-width: 1801px) {
+@media (min-width: 1400px) and (max-width: 1501px) {
   .album {
     flex: 1 33%;
+    max-width: 33%;
+  }
+}
+
+@media (min-width: 1500px) {
+  .album {
+    flex: 1 25%;
+    max-width: 25%;
   }
 }
 </style>
