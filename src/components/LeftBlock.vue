@@ -63,6 +63,7 @@ export default class LeftBlock extends Vue {
 
 @media (min-width: 960px) {
   .left-block {
+    position:fixed;
     background-size: cover;
     min-height: 100vh;
     width: 405px;

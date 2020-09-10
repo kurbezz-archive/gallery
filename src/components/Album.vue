@@ -1,7 +1,7 @@
 <template>
   <div ref="element" class="album"
       :style="{'background-image': backgroundStyle,
-               'min-height': height}">
+               'height': height}">
     {{ data.name }}
   </div>
 </template>
@@ -33,8 +33,6 @@ export default class Album extends Vue {
   updateHeight(): void {
     if (this.element === undefined)
       return;
-
-    console.log("update");
 
     this.height = `${this.element.clientWidth}px`;
   }

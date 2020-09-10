@@ -24,16 +24,22 @@
           <span class="close-btn-label"
                :class="{'close-btn-label-when-left-panel-open': !leftPanelClosed}">MENU</span>
       </div>
-      <router-view class="w-100 content-body"
-                  :class="{'content-body-when-left-panel-open': !leftPanelClosed}"
-                   style="min-height: 100vh"
-                  :leftPanelClosed="leftPanelClosed"/>
+      
+      <vue-scroll style="height: 100vh" :ops="{scrollPanel: {scrollingX: false}}">
+        <router-view class="w-100 content-body"
+                    :class="{'content-body-when-left-panel-open': !leftPanelClosed}"
+                    style="min-height: 100vh"
+                    :leftPanelClosed="leftPanelClosed"/>
+      </vue-scroll>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Ref } from 'vue-property-decorator';
+import 'reflect-metadata';
+import { Component, Vue, Ref } from 'vue-property-decorator';
+
+import VueScroll, { Config } from 'vuescroll';
 
 import LeftPanel from '@/components/LeftPanel.vue'
 
@@ -62,7 +68,8 @@ interface ILottieAnimation {
 @Component({
   components: {
     LeftPanel,
-    LottieAnimation
+    LottieAnimation,
+    VueScroll,
   },
 })
 export default class App extends Vue {
@@ -105,6 +112,7 @@ body, #app {
   letter-spacing: 1px;
   font-weight: 700;
   background-color: black;
+  overflow: hidden;
 }
 
 .close-btn-hover:hover {
@@ -190,6 +198,7 @@ body, #app {
     background-color: rgba(0, 0, 0, 0.7)!important;
     transition: background-color linear .3s;
     opacity: 1!important;
+    z-index: 1;
   }
 
   .close-btn-when-left-panel-open {

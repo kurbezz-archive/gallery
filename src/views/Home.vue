@@ -3,17 +3,21 @@
     <LeftBlock title="HOME" description="kreorg photos" picture="/pictures/home.jpg" :leftPanelClosed="leftPanelClosed"></LeftBlock>
     <div class="albums-wrapper">
       <div class="albums">
-       <Album v-for="album in albums" :key="album.folderName" :data="album"></Album>
+        <Album v-for="album in albums" :key="album.folderName" :data="album"></Album>
+        <!-- ToDO: Delete -->
+        <Album v-for="album in albums" :key="album.folderName + 'copy'" :data="album"></Album>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import 'reflect-metadata';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 import LeftBlock from '@/components/LeftBlock.vue';
 import Album, { IAlbum } from '@/components/Album.vue';
+
 
 @Component({
   name: 'Home',
@@ -87,7 +91,9 @@ export default class Home extends Vue {
 
 @media (min-width: 960px) {
   .albums-wrapper {
-    width: calc(100vw - 425px);
+    width: calc(100vw - 405px);
+    margin-left: 405px;
+
   }
 }
 
