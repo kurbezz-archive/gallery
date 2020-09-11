@@ -1,13 +1,36 @@
 <template>
-  <div ref="element" class="album"
-      :style="{'background-image': backgroundStyle,
-               'height': height}">
-    {{ data.name }}
+  <div 
+      @mouseover="mouseover"
+      @mouseleave="mouseleave"
+      ref="element" class="album"
+      :style="albumStyle">
+    <div class="w-100 h-100 background-wrapper">
+      <div class="w-100 h-100 backgrounds">
+        <transition name="fade">
+          <div v-show="showCover" class="w-100 h-100 cover" :style="coverStyle"></div>
+        </transition>
+        <transition name="fade" v-for="file in data.files" :key="file.id">
+          <div v-show="!showCover && file === data.files[currentPhotoNumber]" 
+              class="w-100 h-100 cover" 
+              :style="{'background-image': `url('pictures/albums/${data.folderName}/${file}')`,}"></div>
+        </transition>
+      </div>
+    </div>
+
+    <div class="w-100 h-100 background-mask">
+      <div class="info text-center">
+        <div class="info-name">{{ data.name }}</div>
+        <hr class="info-hr">
+        <div class="info-description">{{ data.description }}</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import 'reflect-metadata';
 import { Component, Prop, Vue, Ref } from 'vue-property-decorator';
+
 
 export interface IAlbum {
   name: string;
@@ -26,8 +49,28 @@ export default class Album extends Vue {
 
   public height: string = '10px';
 
-  get backgroundStyle() {
-    return `url('pictures/albums/${this.data.folderName}/${this.data.files[1]}')`;
+  showCover: boolean = true;
+
+  interval: number | null = null;
+
+  currentPhotoNumber: number = 0;
+
+  get albumStyle() {
+    return {
+      'height': this.height,
+    }
+  }
+
+  get backgroundMaskStyle() {
+    return {
+      'margin-top': `-${this.height}`
+    };
+  }
+
+  get coverStyle() {
+    return {
+      'background-image': `url('pictures/albums/${this.data.folderName}/${this.data.files[0]}')`,
+    };
   }
 
   updateHeight(): void {
@@ -39,10 +82,27 @@ export default class Album extends Vue {
 
   created() {
     window.addEventListener("resize", this.updateHeight);
+    this.interval = setInterval(() => this.changePhoto(), 2000);
   }
 
   destroyed() {
     window.removeEventListener("resize", this.updateHeight);
+
+    if (this.interval !== null)
+      clearInterval(this.interval);
+  }
+
+  changePhoto() {
+    if (!this.showCover)
+      this.currentPhotoNumber = (this.currentPhotoNumber + 1) % this.data.files.length;
+  }
+
+  mouseover(event: Event) {
+    this.showCover = false;
+  }
+
+  mouseleave(event: Event) {
+    this.showCover = true;
   }
 
   mounted() {
@@ -52,8 +112,76 @@ export default class Album extends Vue {
 </script>
 
 <style scoped>
-.album {
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.background-wrapper {
+  position: absolute;
+}
+
+.backgrounds {
+  position: relative;
+}
+
+.cover {
   background-size: cover;
+  position: absolute;
+}
+
+.background-mask {
+  background: rgba(0, 0, 0, 0);
+  transition: background linear .3s;
+  position: absolute;
+  z-index: 1;
+}
+
+.background-mask:hover {
+  background: rgba(0, 0, 0, 0.5);
+  transition: background linear .3s;
+}
+
+.background-mask > .info {
+  opacity: 0;
+  transition: opacity linear .3s;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.background-mask:hover > .info {
+  opacity: 1;
+  transition: opacity linear .3s;
+}
+
+.info-hr {
+  width: 70%;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.info-name, .info-description {
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.info-name {
+  font-size: 24px;
+}
+
+.info-description {
+  font-size: 12px;
+}
+
+.album {
+  position: relative;
 }
 
 @media (max-width: 461px) {
@@ -72,8 +200,8 @@ export default class Album extends Vue {
 
 @media (min-width: 1400px) and (max-width: 1501px) {
   .album {
-    flex: 1 33%;
-    max-width: 33%;
+    flex: 1 33.333%;
+    max-width: 33.333%;
   }
 }
 
