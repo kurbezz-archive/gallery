@@ -2,7 +2,7 @@
   <div id="app">
     <div class="left-panel" 
         :class="{'left-panel-closed': leftPanelClosed}">
-      <LeftPanel></LeftPanel>
+      <LeftPanel @closeLeftPanel="closeLeftPanel()"></LeftPanel>
     </div>
     <div class="content w-100" 
         :class="{'content-when-left-panel-open': !leftPanelClosed}">
@@ -98,6 +98,18 @@ export default class App extends Vue {
     }
 
     this.leftPanelClosed = !this.leftPanelClosed;
+  }
+
+  closeLeftPanel() {
+    if (this.leftPanelClosed) {
+      this.closeIcon.anim.setDirection(1);
+      this.closeIcon.anim.play();
+    } else {
+      this.closeIcon.anim.setDirection(-1);
+      this.closeIcon.anim.play();
+    }
+
+    this.leftPanelClosed = true;
   }
 }
 </script>

@@ -1,30 +1,34 @@
 <template>
-  <div 
-      @mouseover="mouseover"
-      @mouseleave="mouseleave"
-      ref="element" class="album"
-      :style="albumStyle">
-    <div class="w-100 h-100 background-wrapper">
-      <div class="w-100 h-100 backgrounds">
-        <transition name="fade">
-          <div v-show="showCover" class="w-100 h-100 cover" :style="coverStyle"></div>
-        </transition>
-        <transition name="fade" v-for="file in data.files" :key="file.id">
-          <div v-show="!showCover && file === data.files[currentPhotoNumber]" 
-              class="w-100 h-100 cover" 
-              :style="{'background-image': `url('pictures/albums/${data.folderName}/${file}')`,}"></div>
-        </transition>
+  <transition appear name="fade">
+    <div 
+        @click="onClick"
+        @mouseover="mouseover"
+        @mouseleave="mouseleave"
+        ref="element" class="album"
+        :style="albumStyle">
+      <div class="w-100 h-100 background-wrapper">
+        <div class="w-100 h-100 backgrounds">
+          <transition name="fade">
+            <div v-show="showCover" class="w-100 h-100 cover" :style="coverStyle"></div>
+          </transition>
+          <transition name="fade" v-for="file in data.files" :key="file.id">
+            <div v-show="!showCover && file === data.files[currentPhotoNumber]" 
+                class="w-100 h-100 cover" 
+                :style="{'background-image': `url('pictures/albums/${data.folderName}/${file}')`,}"></div>
+          </transition>
+          <div :style="cacheBlockStyle"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="w-100 h-100 background-mask">
-      <div class="info text-center">
-        <div class="info-name">{{ data.name }}</div>
-        <hr class="info-hr">
-        <div class="info-description">{{ data.description }}</div>
+      <div class="w-100 h-100 background-mask">
+        <div class="info text-center">
+          <div class="info-name">{{ data.name }}</div>
+          <hr class="info-hr">
+          <div class="info-description">{{ data.description }}</div>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -73,6 +77,13 @@ export default class Album extends Vue {
     };
   }
 
+  get cacheBlockStyle() {
+    const chacheImageNumber = (this.currentPhotoNumber + 1) % this.data.files.length;
+    return {
+      'background-image': `url('pictures/albums/${this.data.folderName}/${this.data.files[chacheImageNumber]}')`,
+    }
+  }
+
   updateHeight(): void {
     if (this.element === undefined)
       return;
@@ -95,6 +106,10 @@ export default class Album extends Vue {
   changePhoto() {
     if (!this.showCover)
       this.currentPhotoNumber = (this.currentPhotoNumber + 1) % this.data.files.length;
+  }
+
+  onClick() {
+    this.$router.push({ name: 'Album Page', params: { name: this.data.folderName } })
   }
 
   mouseover(event: Event) {
@@ -147,7 +162,9 @@ export default class Album extends Vue {
 
 .background-mask > .info {
   opacity: 0;
-  transition: opacity linear .3s;
+  padding-top: 3em;
+
+  transition: all linear .3s;
 
   display: flex;
   flex-direction: column;
@@ -158,7 +175,9 @@ export default class Album extends Vue {
 
 .background-mask:hover > .info {
   opacity: 1;
-  transition: opacity linear .3s;
+  padding-top: 0;
+
+  transition: all linear .3s;
 }
 
 .info-hr {

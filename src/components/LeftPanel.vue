@@ -4,14 +4,18 @@
     </div>
     <div class="main-column links text-center">
       <div class="link-wrapper">
-        <router-link class="link" 
-                    :class="{'active-link': isActiveLink('Home')}"
-                    :to="{'name': 'Home'}">HOME</router-link>
+        <span class="link" 
+              :class="{'active-link': isActiveLink('Home')}"
+              @click="goToHome">
+          HOME
+        </span>
       </div>
       <div class="link-wrapper">
-        <router-link class="link" 
-                    :class="{'active-link': isActiveLink('About Me')}"
-                    :to="{'name': 'About Me'}">ABOUT ME</router-link>
+        <span class="link" 
+              :class="{'active-link': isActiveLink('About Me')}"
+              @click="goToAboutMe">
+          ABOUT ME
+        </span>
       </div>
     </div>
     <div class="main-column socials text-center">
@@ -47,6 +51,18 @@ export default class LeftPanel extends Vue {
 
   isActiveLink(name: string): boolean {
     return this.$route.name === name;
+  }
+
+  goToHome() {
+    this.$router.push({'name': 'Home'});
+
+    this.$emit('closeLeftPanel');
+  }
+
+  goToAboutMe() {
+    this.$router.push({'name': 'About Me'});
+
+    this.$emit('closeLeftPanel');
   }
 }
 </script>

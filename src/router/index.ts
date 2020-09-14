@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 
-import Home from '@/views/Home.vue'
-import About from '@/views/About.vue'
+import Home from '@/views/Home.vue';
+import About from '@/views/About.vue';
+import Album from '@/views/Album.vue';
 
 Vue.use(VueRouter)
 
@@ -16,6 +17,11 @@ Vue.use(VueRouter)
     path: '/about',
     name: 'About Me',
     component: About
+  },
+  {
+    path: '/album/:name',
+    name: 'Album Page',
+    component: Album,
   }
 ]
 

@@ -4,8 +4,6 @@
     <div class="albums-wrapper">
       <div class="albums">
         <Album v-for="album in albums" :key="album.folderName" :data="album"></Album>
-        <!-- ToDO: Delete -->
-        <Album v-for="album in albums" :key="album.folderName + 'copy'" :data="album"></Album>
       </div>
     </div>
   </div>
@@ -29,7 +27,9 @@ import Album, { IAlbum } from '@/components/Album.vue';
 export default class Home extends Vue {
   @Prop({required: true}) public readonly leftPanelClosed!: boolean;
 
-  public albums: IAlbum[] = [
+  public albums: IAlbum[] = [];
+
+  public sourceAlbums: IAlbum[] = [
     {
       name: 'Test',
       description: 'Test description',
@@ -74,6 +74,12 @@ export default class Home extends Vue {
       ]
     }
   ];
+
+  mounted() {
+    this.sourceAlbums.forEach((item, index) => {
+      setTimeout(() => this.albums.push(item), 300 * index);
+    })
+  }
 }
 </script>
 
@@ -93,7 +99,6 @@ export default class Home extends Vue {
   .albums-wrapper {
     width: calc(100vw - 405px);
     margin-left: 405px;
-
   }
 }
 
