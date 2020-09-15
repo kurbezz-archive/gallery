@@ -14,7 +14,8 @@ import 'reflect-metadata';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 import LeftBlock from '@/components/LeftBlock.vue';
-import Album, { IAlbum } from '@/components/Album.vue';
+import Album from '@/components/Album.vue';
+import { IAlbum } from '@/store/albums/state'
 
 
 @Component({

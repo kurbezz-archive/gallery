@@ -35,17 +35,10 @@
 import 'reflect-metadata';
 import { Component, Prop, Vue, Ref } from 'vue-property-decorator';
 
+import { IAlbum } from '@/store/albums/state';
 
-export interface IAlbum {
-  name: string;
-  description: string;
-  protected: boolean;
 
-  folderName: string;
-  files: string[];
-}
-
-@Component
+@Component({})
 export default class Album extends Vue {
   @Prop({required: true}) public readonly data!: IAlbum;
 
