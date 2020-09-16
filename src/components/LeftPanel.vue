@@ -43,26 +43,36 @@
 </template>
 
 <script lang="ts">
+import 'reflect-metadata';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
-export default class LeftPanel extends Vue {
-  public closed: boolean = true;
+import { StoreType } from '@/store';
 
+@Component({
+  name: 'LeftPanel',
+})
+export default class LeftPanel extends Vue {
   isActiveLink(name: string): boolean {
     return this.$route.name === name;
   }
 
-  goToHome() {
-    this.$router.push({'name': 'Home'});
+  closeLeftPanel() {
+    (this.$store as StoreType).dispatch('app/setLeftPanelCloseStatus', true)
+      .catch(error => console.log(error));
+  }
 
-    this.$emit('closeLeftPanel');
+  goToHome() {
+    if (this.$route.name !== "Home")
+      this.$router.push({'name': 'Home'});
+
+    this.closeLeftPanel();
   }
 
   goToAboutMe() {
-    this.$router.push({'name': 'About Me'});
+    if (this.$route.name !== "About Me")
+      this.$router.push({'name': 'About Me'});
 
-    this.$emit('closeLeftPanel');
+    this.closeLeftPanel();
   }
 }
 </script>

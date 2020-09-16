@@ -1,7 +1,7 @@
 import { Module } from 'vuex-smart-module';
 import AlbumsState from './state';
 import AlbumsGetters from './getters';
-import AlbumsMutations from './muttations';
+import AlbumsMutations from './mutations';
 import AlbumsActions from './actions';
 
 

@@ -11,11 +11,13 @@
 
 <script lang="ts">
 import 'reflect-metadata';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 import LeftBlock from '@/components/LeftBlock.vue';
 import Album from '@/components/Album.vue';
-import { IAlbum } from '@/store/albums/state'
+
+import { IAlbum } from '@/store/albums/state';
+import { StoreType } from '@/store';
 
 
 @Component({
@@ -30,56 +32,33 @@ export default class Home extends Vue {
 
   public albums: IAlbum[] = [];
 
-  public sourceAlbums: IAlbum[] = [
-    {
-      name: 'Test',
-      description: 'Test description',
-      protected: false,
+  public timeoutsIds: number[] = [];
 
-      folderName: 'test',
-      files: [
-        'p (1).jpg',
-        'p (2).jpg',
-        'p (3).jpg',
-        'p (4).jpg',
-        'p (5).jpg',
-        'p (6).jpg',
-      ]
-    },
-    {
-      name: 'Test 2',
-      description: 'Test 2 description',
-      protected: false,
+  get albumsSource() {
+    const store = (this.$store as StoreType);
 
-      folderName: 'test2',
-      files: [
-        'p (1).jpg',
-        'p (2).jpg',
-        'p (3).jpg',
-        'p (4).jpg',
-        'p (5).jpg',
-      ]
-    },
-    {
-      name: 'Test 3',
-      description: 'Test 3 description',
-      protected: false,
+    const albums = store.state.albums.albums;
 
-      folderName: 'test3',
-      files: [
-        'p (1).jpg',
-        'p (2).jpg',
-        'p (3).jpg',
-        'p (4).jpg',
-        'p (5).jpg',
-      ]
-    }
-  ];
+    if (albums === null)
+      return [];
+    return albums;
+  }
 
-  mounted() {
-    this.sourceAlbums.forEach((item, index) => {
+  @Watch('albumsSource')
+  onAlbumsSourceChanged(val: IAlbum[], oldVal: IAlbum[] | null) {
+    this.updateAlbums();
+  }
+
+  updateAlbums() {
+    this.albums = [];
+
+    this.albumsSource.forEach((item, index) => {
       setTimeout(() => this.albums.push(item), 300 * index);
     })
+  }
+
+  mounted() {
+    this.updateAlbums();
   }
 }
 </script>

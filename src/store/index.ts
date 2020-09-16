@@ -7,11 +7,15 @@ import { Store } from 'vuex';
 import albums from './albums';
 import albumsState from './albums/state';
 
+import app from './app';
+import appState from './app/state';
+
 
 Vue.use(Vuex);
 
 interface IStore {
-  albums: albumsState
+  albums: albumsState,
+  app: appState
 }
 
 export type StoreType = Store<IStore>;
@@ -20,6 +24,7 @@ const store: StoreType = createStore(
   new Module({
     modules: {
       albums,
+      app
     }
   }),
   {

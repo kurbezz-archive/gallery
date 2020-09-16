@@ -2,7 +2,7 @@
   <div id="app">
     <div class="left-panel" 
         :class="{'left-panel-closed': leftPanelClosed}">
-      <LeftPanel @closeLeftPanel="closeLeftPanel()"></LeftPanel>
+      <LeftPanel></LeftPanel>
     </div>
     <div class="content w-100" 
         :class="{'content-when-left-panel-open': !leftPanelClosed}">
@@ -45,6 +45,8 @@ import LeftPanel from '@/components/LeftPanel.vue'
 
 import LottieAnimation from "lottie-vuejs/src/LottieAnimation.vue";
 
+import { StoreType } from '@/store';
+
 interface AnimData {
   direction: number;
   currentTime: number;
@@ -73,8 +75,6 @@ interface ILottieAnimation {
   },
 })
 export default class App extends Vue {
-  public leftPanelClosed: boolean = true;
-
   @Ref('close-icon') public readonly closeIcon!: ILottieAnimation;
 
   setAnimController(controller: IAnimController) {
@@ -110,6 +110,17 @@ export default class App extends Vue {
     }
 
     this.leftPanelClosed = true;
+  }
+
+  get leftPanelClosed(): boolean {
+    return (this.$store as StoreType).state.app.leftPanelClosed;
+  }
+
+  set leftPanelClosed(value: boolean) {
+    const store = (this.$store as StoreType);
+
+    store.dispatch('app/setLeftPanelCloseStatus', value)
+      .catch(error => console.log(error));
   }
 }
 </script>

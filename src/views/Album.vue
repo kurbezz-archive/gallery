@@ -1,6 +1,10 @@
 <template>
   <div>
-    <LeftBlock title="HOME" description="kreorg photos" picture="/pictures/home.jpg" :leftPanelClosed="leftPanelClosed"></LeftBlock>
+    <LeftBlock 
+      title="HOME" 
+      description="kreorg photos" 
+      picture="/pictures/home.jpg" 
+      :leftPanelClosed="leftPanelClosed"></LeftBlock>
     
   </div>
 </template>
