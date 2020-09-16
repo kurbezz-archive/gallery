@@ -28,8 +28,7 @@
       <vue-scroll style="height: 100vh" :ops="{scrollPanel: {scrollingX: false}}">
         <router-view class="w-100 content-body"
                     :class="{'content-body-when-left-panel-open': !leftPanelClosed}"
-                    style="min-height: 100vh"
-                    :leftPanelClosed="leftPanelClosed"/>
+                    style="min-height: 100vh"/>
       </vue-scroll>
     </div>
   </div>
@@ -37,7 +36,7 @@
 
 <script lang="ts">
 import 'reflect-metadata';
-import { Component, Vue, Ref } from 'vue-property-decorator';
+import { Component, Vue, Ref, Watch } from 'vue-property-decorator';
 
 import VueScroll, { Config } from 'vuescroll';
 
@@ -100,16 +99,14 @@ export default class App extends Vue {
     this.leftPanelClosed = !this.leftPanelClosed;
   }
 
-  closeLeftPanel() {
-    if (this.leftPanelClosed) {
+  changeLeftPanelStatus(status: boolean) {
+    if (!this.leftPanelClosed) {
       this.closeIcon.anim.setDirection(1);
       this.closeIcon.anim.play();
     } else {
       this.closeIcon.anim.setDirection(-1);
       this.closeIcon.anim.play();
     }
-
-    this.leftPanelClosed = true;
   }
 
   get leftPanelClosed(): boolean {
@@ -121,6 +118,12 @@ export default class App extends Vue {
 
     store.dispatch('app/setLeftPanelCloseStatus', value)
       .catch(error => console.log(error));
+  }
+
+  @Watch('leftPanelClosed')
+  onLeftPanelClosedChange(val: boolean, oldValue: boolean) {
+    console.log(val, oldValue);
+    this.changeLeftPanelStatus(val);
   }
 }
 </script>

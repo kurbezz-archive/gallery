@@ -1,6 +1,9 @@
 <template>
   <div>
-    <LeftBlock title="HOME" description="kreorg photos" picture="/pictures/home.jpg" :leftPanelClosed="leftPanelClosed"></LeftBlock>
+    <LeftBlock 
+      title="HOME" 
+      description="kreorg photos" 
+      picture="/pictures/home.jpg"></LeftBlock>
     <div class="albums-wrapper">
       <div class="albums">
         <Album v-for="album in albums" :key="album.folderName" :data="album"></Album>
@@ -28,8 +31,6 @@ import { StoreType } from '@/store';
   }
 })
 export default class Home extends Vue {
-  @Prop({required: true}) public readonly leftPanelClosed!: boolean;
-
   public albums: IAlbum[] = [];
 
   public timeoutsIds: number[] = [];

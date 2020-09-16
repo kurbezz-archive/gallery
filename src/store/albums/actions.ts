@@ -15,6 +15,7 @@ export default class AlbumsActions extends Actions<
         name: 'Test',
         description: 'Test description',
         protected: false,
+        coverFileName: 'p (1).jpg',
   
         folderName: 'test',
         files: [
@@ -30,6 +31,7 @@ export default class AlbumsActions extends Actions<
         name: 'Test 2',
         description: 'Test 2 description',
         protected: false,
+        coverFileName: 'p (1).jpg',
   
         folderName: 'test2',
         files: [
@@ -44,6 +46,7 @@ export default class AlbumsActions extends Actions<
         name: 'Test 3',
         description: 'Test 3 description',
         protected: false,
+        coverFileName: 'p (1).jpg',
   
         folderName: 'test3',
         files: [

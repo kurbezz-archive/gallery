@@ -1,6 +1,7 @@
 export interface IAlbum {
   name: string;
   description: string;
+  coverFileName: string;
   protected: boolean;
 
   folderName: string;

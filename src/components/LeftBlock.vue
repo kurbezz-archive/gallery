@@ -10,9 +10,15 @@
 </template>
 
 <script lang="ts">
+import 'reflect-metadata';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
+import { StoreType } from '@/store';
+
+
+@Component({
+  name: 'LeftBlock'
+})
 export default class LeftBlock extends Vue {
   @Prop({required: true}) public readonly title!: string;
 
@@ -20,10 +26,12 @@ export default class LeftBlock extends Vue {
 
   @Prop({required: true}) public readonly picture!: string;
 
-  @Prop({required: true}) public readonly leftPanelClosed!: boolean;
-
   get backgroundStyle(): string {
-    return `url('${this.picture}')`
+    return `url('${this.picture}')`;
+  }
+
+  get leftPanelClosed(): boolean {
+    return (this.$store as StoreType).state.app.leftPanelClosed;
   }
 }
 </script>
