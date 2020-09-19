@@ -122,6 +122,7 @@ export default class App extends Vue {
 
   @Watch('leftPanelClosed')
   onLeftPanelClosedChange(val: boolean, oldValue: boolean) {
+
     this.changeLeftPanelStatus(val);
   }
 }
@@ -144,10 +145,15 @@ body, #app {
   background-color: white!important;
 }
 
+.close-btn {
+  z-index: 2;
+}
+
 .vertical-panel {
   position: absolute;
   height: 0px;
   width: 0px;
+  z-index: 1;
 }
 
 .content-body {
@@ -172,7 +178,7 @@ body, #app {
   }
 
   .close-btn-when-left-panel-open {
-    background-color: black!important;
+    background-color: transparent!important;
     transition: background-color linear .3s;
   }
 
@@ -202,7 +208,6 @@ body, #app {
     width: 58px;
     height: 100%;
     background: white!important;
-    z-index: 1;
   }
 
   .close-btn-label-when-left-panel-open {

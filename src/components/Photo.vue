@@ -1,12 +1,12 @@
 <template>
-  <transition appear name="fade">
-    <div class="photo-wrapper"
-        :style="photoWrapperStyle"
-        ref="element"
-        @click="onClick">
-        <div class="photo" :style="photoStyle"></div>
-    </div>
-  </transition>
+  <div class="photo-wrapper"
+    :style="photoWrapperStyle"
+    ref="element"
+    @click="onClick">
+    <transition appear name="fade">
+      <div class="photo" :style="photoStyle"></div>
+    </transition>
+  </div>
 </template>
 
 <script lang="ts">
