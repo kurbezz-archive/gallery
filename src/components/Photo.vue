@@ -2,7 +2,8 @@
   <transition appear name="fade">
     <div class="photo"
         :style="photoStyle"
-        ref="element">
+        ref="element"
+        @click="onClick">
     </div>
   </transition>
 </template>
@@ -47,6 +48,10 @@ export default class Photo extends Vue {
       'background-image': `url('/pictures/albums/${this.album.folderName}/${this.file}')`,
       'height': this.height,
     }
+  }
+
+  onClick() {
+    this.$emit('clickPhoto', this.album.files.indexOf(this.file));
   }
 
   mounted() {

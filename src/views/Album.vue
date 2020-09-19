@@ -6,15 +6,25 @@
       :picture="picture"></LeftBlock>
     <div class="photos-wrapper">
       <div class="photos" v-if="album !== null">
-        <Photo v-for="file in filesToShow" :key="file" :file="file" :album="album"></Photo>
+        <Photo v-for="file in filesToShow" :key="file" :file="file" :album="album"
+               @clickPhoto="clickPhoto"></Photo>
       </div>
     </div>
+    <vue-gallery v-if="album !== null"
+                 :options="options" 
+                 :images="images" 
+                 :index="index" 
+                 @close="index = null">
+      <slot name="next">Next</slot>
+    </vue-gallery>
   </div>
 </template>
 
 <script lang="ts">
 import 'reflect-metadata';
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch, Ref } from 'vue-property-decorator';
+
+import VueGallery from 'vue-gallery';
 
 import { StoreType } from '@/store';
 import { IAlbum } from '@/store/albums/state';
@@ -28,10 +38,15 @@ import Photo from '@/components/Photo.vue';
   components: {
     LeftBlock,
     Photo,
+    VueGallery,
   }
 })
 export default class AlbumPage extends Vue {
   public filesToShow: string[] = [];
+
+  public index: number | null = null;
+  
+  public options: object = {};
 
   get album(): IAlbum | null {
     const albums = (this.$store as StoreType).state.albums.albums;
@@ -62,7 +77,12 @@ export default class AlbumPage extends Vue {
   get picture(): string {
     if (this.album === null)
       return '';
-    return `/pictures/albums/${this.album.folderName}/${this.album.coverFileName}`
+    return `/pictures/albums/${this.album.folderName}/${this.album.coverFileName}`;
+  }
+
+  get images() {
+    return this.album!.files
+    .map(item => `/pictures/albums/${this.album!.folderName}/${item}`);
   }
 
   updateFiles() {
@@ -81,8 +101,14 @@ export default class AlbumPage extends Vue {
     this.updateFiles();
   }
 
+  clickPhoto(index: number) {
+    this.index = index;
+  }
+
   mounted() {
     this.updateFiles();
+
+    this.$on('clickPhoto', this.clickPhoto);
   }
 }
 </script>
@@ -110,5 +136,13 @@ export default class AlbumPage extends Vue {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+</style>
+
+<style>
+.blueimp-gallery>.next, .blueimp-gallery>.prev {
+  border: none;
+  background: none;
+  color: white!important;
 }
 </style>
