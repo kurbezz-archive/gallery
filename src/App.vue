@@ -122,7 +122,6 @@ export default class App extends Vue {
 
   @Watch('leftPanelClosed')
   onLeftPanelClosedChange(val: boolean, oldValue: boolean) {
-    console.log(val, oldValue);
     this.changeLeftPanelStatus(val);
   }
 }

@@ -58,15 +58,9 @@ export default class Album extends Vue {
     }
   }
 
-  get backgroundMaskStyle() {
-    return {
-      'margin-top': `-${this.height}`
-    };
-  }
-
   get coverStyle() {
     return {
-      'background-image': `url('pictures/albums/${this.data.folderName}/${this.data.files[0]}')`,
+      'background-image': `url('pictures/albums/${this.data.folderName}/${this.data.coverFileName}')`,
     };
   }
 
