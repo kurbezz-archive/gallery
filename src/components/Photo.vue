@@ -1,9 +1,10 @@
 <template>
   <transition appear name="fade">
-    <div class="photo"
-        :style="photoStyle"
+    <div class="photo-wrapper"
+        :style="photoWrapperStyle"
         ref="element"
         @click="onClick">
+        <div class="photo" :style="photoStyle"></div>
     </div>
   </transition>
 </template>
@@ -45,7 +46,12 @@ export default class Photo extends Vue {
 
   get photoStyle() {
     return {
-      'background-image': `url('/pictures/albums/${this.album.folderName}/${this.file}')`,
+      'background-image': `url('/pictures/albums/${this.album.folderName}/${this.file}')`
+    }
+  }
+
+  get photoWrapperStyle() {
+    return {
       'height': this.height,
     }
   }
@@ -69,34 +75,53 @@ export default class Photo extends Vue {
   opacity: 0;
 }
 
+.photo-wrapper {
+  position: relative;
+  overflow: hidden;
+  transition: linear ;
+  transition: opacity 1s ease;
+  opacity: 1;
+}
+
+.photo-wrapper:hover {
+  transition: opacity 1s ease;
+  opacity: 0.5;
+}
+
 .photo {
   background-size: cover;
-  position: relative;
+  transition: 1s;
+  width: 100%;
+  height: 100%;
+}
+
+.photo:hover {
+  transform: scale(1.2);
 }
 
 @media (max-width: 461px) {
-  .photo {
+  .photo-wrapper {
     flex: 1 100%;
     max-width: 100%;
   }
 }
 
 @media (min-width: 460px) and (max-width: 1401px) {
-  .photo {
+  .photo-wrapper {
     flex: 1 50%;
     max-width: 50%;
   }
 }
 
 @media (min-width: 1400px) and (max-width: 1501px) {
-  .photo {
+  .photo-wrapper {
     flex: 1 33.333%;
     max-width: 33.333%;
   }
 }
 
 @media (min-width: 1500px) {
-  .photo {
+  .photo-wrapper {
     flex: 1 25%;
     max-width: 25%;
   }

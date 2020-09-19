@@ -15,7 +15,6 @@
                  :images="images" 
                  :index="index" 
                  @close="index = null">
-      <slot name="next">Next</slot>
     </vue-gallery>
   </div>
 </template>
@@ -82,7 +81,7 @@ export default class AlbumPage extends Vue {
 
   get images() {
     return this.album!.files
-    .map(item => `/pictures/albums/${this.album!.folderName}/${item}`);
+      .map(item => `/pictures/albums/${this.album!.folderName}/${item}`);
   }
 
   updateFiles() {
@@ -135,8 +134,9 @@ export default class AlbumPage extends Vue {
 .photos {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: wrap; 
 }
+
 </style>
 
 <style>
