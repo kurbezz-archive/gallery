@@ -81,7 +81,13 @@ export default class AlbumPage extends Vue {
 
   get images() {
     return this.album!.files
-      .map(item => `/pictures/albums/${this.album!.folderName}/photos/${item}`);
+      .map((item, index) => {
+        return {
+          id: `${this.album!.folderName}/${item}`,
+          href: `/pictures/albums/${this.album!.folderName}/photos/${item}`,
+          description: this.album!.photoDescription[item] || ' ',
+        };
+      });
   }
 
   updateFiles() {
@@ -144,5 +150,11 @@ export default class AlbumPage extends Vue {
   border: none;
   background: none;
   color: white!important;
+}
+
+.blueimp-gallery-controls > .description {
+  margin-top: calc(100vh - 5em);
+  width: 100vw;
+  text-align: center;
 }
 </style>

@@ -59,7 +59,17 @@ function processAlbum(folderName: string) {
         } else {
           console.error(red(`Error: File ${albumPath}/album.yml does not contains "${item}" key!`));
         }
-      })
+      });
+
+      if (parsedData['photoDescription']) {
+        Object.keys(parsedData['photoDescription']).forEach(item => {
+          if (!photos.includes(item)) {
+            console.warn(yellow(`Warning: Description for ${albumPath}/photos/${item} , but it doesn't exist!`));
+          }
+        });
+
+        config['photoDescription'] = parsedData['photoDescription'];
+      }
     }
   } else {
     console.error(red(`Error: File ${albumPath}/album.yml does not exists!`));

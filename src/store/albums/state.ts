@@ -5,7 +5,11 @@ export interface IAlbum {
   protected: boolean;
 
   folderName: string;
+
   files: string[];
+  files_360: string[];
+
+  photoDescription: {[key: string]: string};
 }
 
 export default class AlbumsState {
