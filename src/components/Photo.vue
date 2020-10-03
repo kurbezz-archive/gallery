@@ -46,7 +46,7 @@ export default class Photo extends Vue {
 
   get photoStyle() {
     return {
-      'background-image': `url('/pictures/albums/${this.album.folderName}/${this.file}')`
+      'background-image': `url('/pictures/albums/${this.album.folderName}/photos/${this.file}')`
     }
   }
 

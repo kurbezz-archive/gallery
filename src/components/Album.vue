@@ -14,7 +14,7 @@
           <transition name="fade" v-for="file in data.files" :key="file.id">
             <div v-show="!showCover && file === data.files[currentPhotoNumber]" 
                 class="w-100 h-100 cover" 
-                :style="{'background-image': `url('pictures/albums/${data.folderName}/${file}')`,}"></div>
+                :style="{'background-image': `url('pictures/albums/${data.folderName}/photos/${file}')`,}"></div>
           </transition>
           <div :style="cacheBlockStyle"></div>
         </div>
@@ -60,14 +60,14 @@ export default class Album extends Vue {
 
   get coverStyle() {
     return {
-      'background-image': `url('pictures/albums/${this.data.folderName}/${this.data.coverFileName}')`,
+      'background-image': `url('pictures/albums/${this.data.folderName}/photos/${this.data.coverFileName}')`,
     };
   }
 
   get cacheBlockStyle() {
-    const chacheImageNumber = (this.currentPhotoNumber + 1) % this.data.files.length;
+    const chacheImageNumber = this.currentPhotoNumber % this.data.files.length;
     return {
-      'background-image': `url('pictures/albums/${this.data.folderName}/${this.data.files[chacheImageNumber]}')`,
+      'background-image': `url('pictures/albums/${this.data.folderName}/photos/${this.data.files[chacheImageNumber]}')`,
     }
   }
 
@@ -92,7 +92,7 @@ export default class Album extends Vue {
 
   changePhoto() {
     if (!this.showCover)
-      this.currentPhotoNumber = (this.currentPhotoNumber + 1) % this.data.files.length;
+      this.currentPhotoNumber = this.currentPhotoNumber % this.data.files.length;
   }
 
   onClick() {

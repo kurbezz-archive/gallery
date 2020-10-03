@@ -76,12 +76,12 @@ export default class AlbumPage extends Vue {
   get picture(): string {
     if (this.album === null)
       return '';
-    return `/pictures/albums/${this.album.folderName}/${this.album.coverFileName}`;
+    return `/pictures/albums/${this.album.folderName}/photos/${this.album.coverFileName}`;
   }
 
   get images() {
     return this.album!.files
-      .map(item => `/pictures/albums/${this.album!.folderName}/${item}`);
+      .map(item => `/pictures/albums/${this.album!.folderName}/photos/${item}`);
   }
 
   updateFiles() {
