@@ -61,6 +61,12 @@ function processAlbum(folderName: string) {
         }
       });
 
+      if (parsedData['coverFileName']) {
+        if (!photos.includes(parsedData['coverFileName'])) {
+          console.error(red(`Error: Cover file ${albumPath}/photos/${parsedData['coverFileName']} does not exists!`));
+        }
+      }
+
       if (parsedData['photoDescription']) {
         Object.keys(parsedData['photoDescription']).forEach(item => {
           if (!photos.includes(item)) {
