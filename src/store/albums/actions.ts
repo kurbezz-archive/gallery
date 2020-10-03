@@ -12,7 +12,7 @@ export default class AlbumsActions extends Actions<
   AlbumsActions
 > {
   $init() {
-    axios.get('generated_albums_config.json')
+    axios.get('/generated_albums_config.json')
       .then(response => {
         setTimeout(() => this.commit('updateAlbums', response.data), 500);
       }).catch(error => console.log(error));

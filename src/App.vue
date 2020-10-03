@@ -203,6 +203,10 @@ body, #app {
     left: 60px;
   }
 
+  .close-btn-label-when-left-panel-open {
+    opacity: 0;
+  }
+
   .vertical-panel-when-left-panel-open {
     position: fixed;
     width: 58px;
@@ -260,6 +264,7 @@ body, #app {
   width: 192px;
   background-color: white;
   transition: margin-left linear .3s;
+  z-index: 100;
 }
 
 .left-panel-closed {
