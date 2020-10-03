@@ -25,6 +25,9 @@ export default class Photo extends Vue {
   @Prop({required: true})
   public readonly album!: IAlbum;
 
+  @Prop({default: false})
+  public readonly t360!: boolean;
+
   @Ref('element') public readonly element!: HTMLElement;
 
   public height: string = '10px';
@@ -45,8 +48,9 @@ export default class Photo extends Vue {
   }
 
   get photoStyle() {
+    const folder = this.t360 ? "360_photos" : "photos";
     return {
-      'background-image': `url('/pictures/albums/${this.album.folderName}/photos/${this.file}')`
+      'background-image': `url('/pictures/albums/${this.album.folderName}/${folder}/${this.file}')`
     }
   }
 
@@ -57,7 +61,11 @@ export default class Photo extends Vue {
   }
 
   onClick() {
-    this.$emit('clickPhoto', this.album.files.indexOf(this.file));
+    if (this.t360) {
+      this.$emit('clickPhoto', this.album.files_360.indexOf(this.file));
+    } else {
+      this.$emit('clickPhoto', this.album.files.indexOf(this.file));
+    }
   }
 
   mounted() {

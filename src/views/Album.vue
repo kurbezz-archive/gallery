@@ -9,6 +9,11 @@
         <Photo v-for="file in filesToShow" :key="file" :file="file" :album="album"
                @clickPhoto="clickPhoto"></Photo>
       </div>
+      <span>360*</span>
+      <div class="photos360" v-if="album !== null">
+        <Photo v-for="file in filesToShow360" :key="file" :file="file" :album="album"
+               @clickPhoto="clickPhoto360" :t360="true"></Photo>
+      </div>
     </div>
     <vue-gallery v-if="album !== null"
                  :options="options" 
@@ -16,6 +21,14 @@
                  :index="index" 
                  @close="index = null">
     </vue-gallery>
+    <div class="pano-wrapper" v-if="index360 !== null">
+      <div class="pano-container">
+        <pano :source="source360"></pano>
+      </div>
+      <div class="pano-button pano-prev" @click="prev360">‹</div>
+      <div class="pano-button pano-next" @click="next360">›</div>
+      <div class="pano-button pano-close" @click="index360 = null">×</div>
+    </div>
   </div>
 </template>
 
@@ -24,6 +37,8 @@ import 'reflect-metadata';
 import { Vue, Component, Prop, Watch, Ref } from 'vue-property-decorator';
 
 import VueGallery from 'vue-gallery';
+
+import { Pano } from 'vuejs-vr';
 
 import { StoreType } from '@/store';
 import { IAlbum } from '@/store/albums/state';
@@ -38,12 +53,17 @@ import Photo from '@/components/Photo.vue';
     LeftBlock,
     Photo,
     VueGallery,
+    Pano,
   }
 })
 export default class AlbumPage extends Vue {
   public filesToShow: string[] = [];
 
+  public filesToShow360: string[] = [];
+
   public index: number | null = null;
+
+  public index360: number | null = null;
   
   public options: object = {};
 
@@ -98,7 +118,11 @@ export default class AlbumPage extends Vue {
 
     this.album.files.forEach((item, index) => {
       setTimeout(() => this.filesToShow.push(item), 300 * index);
-    })
+    });
+
+    this.album.files_360.forEach((item, index) => {
+      setTimeout(() => this.filesToShow360.push(item), 300 * index);
+    });
   }
 
   @Watch('album')
@@ -108,6 +132,38 @@ export default class AlbumPage extends Vue {
 
   clickPhoto(index: number) {
     this.index = index;
+  }
+
+  clickPhoto360(index: number) {
+    this.index360 = index;
+  }
+
+  get source360() {
+    if (this.index360 === null)
+      return '';
+
+    const filename = this.album!.files_360[this.index360];
+    return `/pictures/albums/${this.album!.folderName}/360_photos/${filename}`;
+  }
+
+  next360() {
+    const newIndex = this.index360! + 1;
+
+    if (newIndex >= this.album!.files_360.length) {
+      this.index360 = 0;
+    } else {
+      this.index360 = newIndex;
+    }
+  }
+
+  prev360() {
+    const newIndex = this.index360! - 1;
+
+    if (newIndex! < 0) {
+      this.index360 = this.album!.files_360.length - 1;
+    } else {
+      this.index360 = newIndex;
+    }
   }
 
   mounted() {
@@ -124,6 +180,47 @@ export default class AlbumPage extends Vue {
   vertical-align: top;
 }
 
+.pano-wrapper {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.pano-container {
+  margin-top: 5%;
+  margin-left: 5%;
+  width: 90%;
+  height: 85%;
+}
+
+.pano-button {
+  position: fixed;
+
+  padding: 1em;
+  color: white;
+}
+
+.pano-prev {
+  top: 45%;
+  left: -3%;
+  font-size: 3em;
+}
+
+.pano-next {
+  top: 45%;
+  right: -3%;
+  font-size: 3em;
+}
+
+.pano-close {
+  top: -3%;
+  right: -1%;
+  font-size: 2em;
+}
+
 @media (max-width: 961px) {
   .photos-wrapper {
     width: calc(100vw);
@@ -137,12 +234,11 @@ export default class AlbumPage extends Vue {
   }
 }
 
-.photos {
+.photos, .photos360 {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap; 
 }
-
 </style>
 
 <style>
