@@ -28,6 +28,7 @@
       <div class="pano-button pano-prev" @click="prev360">‹</div>
       <div class="pano-button pano-next" @click="next360">›</div>
       <div class="pano-button pano-close" @click="index360 = null">×</div>
+      <div class="pano-description">{{ panoDescription }}</div>
     </div>
   </div>
 </template>
@@ -146,6 +147,14 @@ export default class AlbumPage extends Vue {
     return `/pictures/albums/${this.album!.folderName}/360_photos/${filename}`;
   }
 
+  get panoDescription() {
+    if (this.index360 === null)
+      return '';
+
+    const filename = this.album!.files_360[this.index360];
+    return this.album!.photoDescription[filename] || '';
+  }
+
   next360() {
     const newIndex = this.index360! + 1;
 
@@ -196,11 +205,22 @@ export default class AlbumPage extends Vue {
   height: 85%;
 }
 
+.pano-description {
+  position: fixed;
+
+  margin-top: 0.5em;
+
+  width: 100%;
+  text-align: center;
+  color: white;
+}
+
 .pano-button {
   position: fixed;
 
   padding: 1em;
   color: white;
+  cursor: pointer;
 }
 
 .pano-prev {

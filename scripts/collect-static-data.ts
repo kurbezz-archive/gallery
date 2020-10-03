@@ -69,7 +69,7 @@ function processAlbum(folderName: string) {
 
       if (parsedData['photoDescription']) {
         Object.keys(parsedData['photoDescription']).forEach(item => {
-          if (!photos.includes(item)) {
+          if (!photos.includes(item) && !photos360.includes(item)) {
             console.warn(yellow(`Warning: Description for ${albumPath}/photos/${item} , but it doesn't exist!`));
           }
         });

@@ -1,5 +1,5 @@
-name: Album 1 name
-description: Album 2 description
+name: 'Album 1 name'
+description: 'Album 2 description'
 protected: false
 
 coverFileName: 'IMG_20200811_060850.jpg'
@@ -7,3 +7,4 @@ coverFileName: 'IMG_20200811_060850.jpg'
 photoDescription:
   IMG_20200811_060850.jpg: 'Description 1'
   IMG_20200811_074445.jpg: 'Description 2'
+  photo.jpg: 'Description 360'
