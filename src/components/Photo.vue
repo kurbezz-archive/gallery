@@ -48,9 +48,8 @@ export default class Photo extends Vue {
   }
 
   get photoStyle() {
-    const folder = this.t360 ? "360_photos" : "photos";
     return {
-      'background-image': `url('/pictures/albums/${this.album.folderName}/${folder}/${this.file}')`
+      'background-image': `url('/pictures/albums/${this.album.folderName}/generated_previews/${this.file}')`
     }
   }
 

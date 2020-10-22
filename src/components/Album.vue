@@ -14,7 +14,7 @@
           <transition name="fade" v-for="file in data.files" :key="file.id">
             <div v-show="!showCover && file === data.files[currentPhotoNumber]" 
                 class="w-100 h-100 cover" 
-                :style="{'background-image': `url('pictures/albums/${data.folderName}/photos/${file}')`,}"></div>
+                :style="{'background-image': `url('pictures/albums/${data.folderName}/generated_previews/${file}')`,}"></div>
           </transition>
           <div :style="cacheBlockStyle"></div>
         </div>
@@ -60,14 +60,14 @@ export default class Album extends Vue {
 
   get coverStyle() {
     return {
-      'background-image': `url('pictures/albums/${this.data.folderName}/photos/${this.data.coverFileName}')`,
+      'background-image': `url('pictures/albums/${this.data.folderName}/generated_previews/${this.data.coverFileName}')`,
     };
   }
 
   get cacheBlockStyle() {
     const chacheImageNumber = this.currentPhotoNumber % this.data.files.length;
     return {
-      'background-image': `url('pictures/albums/${this.data.folderName}/photos/${this.data.files[chacheImageNumber]}')`,
+      'background-image': `url('pictures/albums/${this.data.folderName}/generated_previews/${this.data.files[chacheImageNumber]}')`,
     }
   }
 
@@ -80,7 +80,7 @@ export default class Album extends Vue {
 
   created() {
     window.addEventListener("resize", this.updateHeight);
-    this.interval = setInterval(() => this.changePhoto(), 2000);
+    this.interval = setInterval(() => this.changePhoto(), 200);
   }
 
   destroyed() {

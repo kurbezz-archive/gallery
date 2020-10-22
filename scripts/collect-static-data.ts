@@ -1,6 +1,15 @@
-import { readdirSync, readFileSync, writeFileSync } from 'fs';
+import { readdirSync, readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { parse } from 'yaml';
 import { yellow, red } from 'colors';
+
+const rimraf = require('rimraf');
+const sizeOf = require('image-size');
+const clipper = require('image-clipper');
+const canvas = require('canvas');
+
+
+clipper.configure('canvas', canvas);
+
 
 const albumsPath = "./public/pictures/albums";
 
@@ -14,6 +23,54 @@ function getDirectories(path: string) {
 function getFiles(path: string) {
   return readdirSync(path, { withFileTypes: true })
     .filter(item => !item.isDirectory()).map(item => item.name);
+}
+
+
+function _genPreview(original: string, preview: string) {
+  const originalSize = sizeOf(original);
+
+  let minSize = Math.min(originalSize.width, originalSize.height);
+
+  if (minSize % 2 == 1)
+    minSize -= 1;
+  
+  const centerX = Math.floor(originalSize.width / 2);
+  const centerY = Math.floor(originalSize.height / 2);
+
+  clipper(original, function() {
+    this.crop(centerX - minSize / 2, centerY - minSize / 2, minSize, minSize)
+      .resize(600, 600)
+      .quality(85)
+      .toFile(preview, () => {});
+  });
+}
+
+
+function generatePriview(config: { folderName: string,
+                                   files: string[],
+                                   files_360: string[] }) {
+  const albumPath = `${albumsPath}/${config.folderName}`;
+  const previewsPath = `${albumPath}/generated_previews`;
+
+  if (existsSync(previewsPath)) {
+    rimraf.sync(previewsPath);
+  }
+
+  mkdirSync(previewsPath);
+
+  config.files.forEach((item) => {
+    const filePath = `${albumPath}/photos/${item}`;
+    const previewPath = `${albumPath}/generated_previews/${item}`;
+
+    _genPreview(filePath, previewPath);
+  });
+
+  config.files_360.forEach((item) => {
+    const filePath = `${albumPath}/360_photos/${item}`;
+    const previewPath = `${albumPath}/generated_previews/${item}`;
+
+    _genPreview(filePath, previewPath);
+  });
 }
 
 
@@ -86,6 +143,11 @@ function processAlbum(folderName: string) {
   config['files'] = photos;
 
   config['files_360'] = photos360;
+
+  generatePriview(config as { folderName: string,
+                              files: string[],
+                              files_360: string[] }
+);
 
   return config;
 }
