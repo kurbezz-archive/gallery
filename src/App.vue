@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <div class="left-panel" 
+    <div class="left-panel"
         :class="{'left-panel-closed': leftPanelClosed}">
       <LeftPanel></LeftPanel>
     </div>
-    <div class="content w-100" 
+    <div class="content w-100"
         :class="{'content-when-left-panel-open': !leftPanelClosed}">
       <div class="vertical-panel"
           :class="{'vertical-panel-when-left-panel-open': !leftPanelClosed}"></div>
@@ -15,8 +15,8 @@
           <LottieAnimation
             class="close-btn-icon"
            :class="{'close-btn-icon-when-left-panel-open': !leftPanelClosed}"
-            path="./animations/menu-close2.json"
-           :width="30"
+            json="./animations/menu-close2.json"
+            width="30"
            :autoPlay="false"
            :loop="false"
            @AnimControl="setAnimController"
@@ -24,7 +24,7 @@
           <span class="close-btn-label"
                :class="{'close-btn-label-when-left-panel-open': !leftPanelClosed}">MENU</span>
       </div>
-      
+
       <vue-scroll style="height: 100vh" :ops="{scrollPanel: {scrollingX: false}}">
         <router-view class="w-100 content-body"
                     :class="{'content-body-when-left-panel-open': !leftPanelClosed}"
@@ -200,7 +200,7 @@ body, #app {
     font-weight: 400;
     color: white;
     top: 14px;
-    left: 60px;
+    left: 64px;
   }
 
   .close-btn-label-when-left-panel-open {
@@ -242,7 +242,7 @@ body, #app {
 
   .close-btn-icon {
     position: absolute;
-    left: 14px;
+    left: 4px;
   }
 
   .close-btn-label {
@@ -250,7 +250,7 @@ body, #app {
     font-size: 12px;
     font-weight: 300;
     color: white;
-    top: calc(49% + 20px);
+    top: calc(49% + 28px);
     left: 10px;
   }
 

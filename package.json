@@ -8,9 +8,11 @@
     "collect": "ts-node --skip-project ./scripts/collect-static-data.ts"
   },
   "dependencies": {
+    "axios": "*",
     "colors": "^1.4.0",
     "core-js": "^3.6.5",
-    "lottie-vuejs": "^0.3.7",
+    "lottie-vuejs": "^0.1.0",
+    "lottie-web": "*",
     "ts-node": "^9.0.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
