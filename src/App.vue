@@ -188,6 +188,7 @@ body, #app {
     left: 14px;
     transition: left linear .3s;
     z-index: 2;
+    width: 40px;
   }
 
   .close-btn-icon-when-left-panel-open {
@@ -250,7 +251,7 @@ body, #app {
     font-size: 12px;
     font-weight: 300;
     color: white;
-    top: calc(49% + 28px);
+    top: calc(49% + 40px);
     left: 10px;
   }
 
